@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { supabase } from '../utils/supabase'; // ✅ Add this import
+import { supabase } from '../utils/supabase';
+
+// ✅ Add this line - uses environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export function SignupPage() {
   const [name, setName] = useState('');
@@ -24,7 +27,8 @@ export function SignupPage() {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:5000/api/users', {
+      // ✅ Changed this line - uses API_URL variable
+      const response = await axios.post(`${API_URL}/api/users`, {
         name, 
         email, 
         password 
@@ -41,7 +45,7 @@ export function SignupPage() {
     }
   };
 
-  // ✅ Add Google Sign Up function
+  // Google Sign Up function
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);

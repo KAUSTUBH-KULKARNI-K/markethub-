@@ -4,6 +4,9 @@ import { ArrowLeft, Upload, Sun, Moon, Image as ImageIcon, X } from 'lucide-reac
 import axios from 'axios';
 import { supabase } from '../utils/supabase';
 
+// ✅ Add this line - uses environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export function SellPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [formData, setFormData] = useState({
@@ -136,8 +139,8 @@ export function SellPage() {
         }
       }
 
-      // Submit product with image URL
-      const response = await axios.post('http://localhost:5000/api/products', {
+      // ✅ Changed this line - uses API_URL variable
+      const response = await axios.post(`${API_URL}/api/products`, {
         ...formData,
         image_url: imageUrl,
         seller_name: user.name,

@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Sun, Moon, Trash2, Edit, MessageSquare } from 'lucide-react';
 import axios from 'axios';
 
+// ✅ Add this line - uses environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export function MyListingsPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [products, setProducts] = useState([]);
@@ -33,7 +36,8 @@ export function MyListingsPage() {
         return;
       }
 
-      const response = await axios.get(`http://localhost:5000/api/products?user_id=${user.id}`);
+      // ✅ Changed this line - uses API_URL variable
+      const response = await axios.get(`${API_URL}/api/products?user_id=${user.id}`);
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -48,7 +52,8 @@ export function MyListingsPage() {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`);
+      // ✅ Changed this line - uses API_URL variable
+      await axios.delete(`${API_URL}/api/products/${id}`);
       alert('Product deleted successfully!');
       fetchMyProducts();
     } catch (error) {
@@ -155,12 +160,12 @@ export function MyListingsPage() {
                   {/* Action Buttons */}
                   <div className="flex gap-2">
                     <button
-  onClick={() => navigate(`/conversations/${product.id}`)}
-  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
->
-  <MessageSquare size={18} />
-  Messages
-</button>
+                      onClick={() => navigate(`/conversations/${product.id}`)}
+                      className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+                    >
+                      <MessageSquare size={18} />
+                      Messages
+                    </button>
 
                     <button
                       onClick={() => deleteProduct(product.id)}

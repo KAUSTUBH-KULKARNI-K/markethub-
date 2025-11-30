@@ -3,6 +3,9 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Send, Sun, Moon, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 
+// ✅ Add this line - uses environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export function MessagesPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -50,8 +53,8 @@ export function MessagesPage() {
         return;
       }
 
-      // Fetch product details
-      const productRes = await axios.get(`http://localhost:5000/api/products/${productId}`);
+      // ✅ Changed this line - uses API_URL variable
+      const productRes = await axios.get(`${API_URL}/api/products/${productId}`);
       const productData = productRes.data;
       setProduct(productData);
 
@@ -85,9 +88,9 @@ export function MessagesPage() {
 
       console.log('Fetching messages between:', user.id, 'and', chattingWithId);
 
-      // Fetch messages for this conversation
+      // ✅ Changed this line - uses API_URL variable
       const messagesRes = await axios.get(
-        `http://localhost:5000/api/messages/${productId}?user_id=${user.id}&other_user_id=${chattingWithId}`
+        `${API_URL}/api/messages/${productId}?user_id=${user.id}&other_user_id=${chattingWithId}`
       );
       setMessages(messagesRes.data);
       
@@ -123,7 +126,8 @@ export function MessagesPage() {
 
       console.log('Sending message from', currentUser.id, 'to', otherUser.id);
 
-      await axios.post('http://localhost:5000/api/messages', {
+      // ✅ Changed this line - uses API_URL variable
+      await axios.post(`${API_URL}/api/messages`, {
         product_id: productId,
         sender_id: currentUser.id,
         receiver_id: otherUser.id,

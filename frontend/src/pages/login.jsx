@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
-import { supabase } from '../utils/supabase'; // ✅ Import from utils
+import { supabase } from '../utils/supabase';
+
+// ✅ Add this line - uses environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -18,7 +21,8 @@ export function LoginPage() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/login', {
+      // ✅ Changed this line - uses API_URL variable
+      const response = await axios.post(`${API_URL}/api/login`, {
         email,
         password
       });

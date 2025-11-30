@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Sun, Moon, Phone, Mail, MapPin, RefreshCw, MessageSquare } from 'lucide-react';
 import axios from 'axios';
 
+// ✅ Add this line - uses environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export function BuyerPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,7 +33,8 @@ export function BuyerPage() {
       setLoading(true);
       setError('');
       
-      let url = 'http://localhost:5000/api/products';
+      // ✅ Changed this line - uses API_URL variable
+      let url = `${API_URL}/api/products`;
       const params = new URLSearchParams();
       
       if (selectedCategory !== 'all') {
